@@ -25,7 +25,7 @@
         </div>
         <div class="flex items-center gap-2 flex-wrap text-xs font-semibold">
             <div class="bg-slate-950 px-2.5 py-1.5 rounded-lg border border-slate-800 flex items-center gap-1.5">
-                <span class="text-amber-400">Wave</span><span id="hud-wave" class="font-bold text-white">1/10</span>
+                <span class="text-amber-400">Wave</span><span id="hud-wave" class="font-bold text-white">1/20</span>
             </div>
             <div class="bg-slate-950 px-2.5 py-1.5 rounded-lg border border-slate-800 flex items-center gap-1.5">
                 <span class="text-yellow-400">💰</span><span id="hud-gold" class="font-bold text-yellow-300">120</span>
@@ -88,10 +88,10 @@
             <div id="overlay-title" class="title-overlay absolute inset-0 flex flex-col items-center justify-center p-6 text-center z-10">
                 <p class="title-kicker">ISLAND DEFENSE OPERATION</p>
                 <h2 class="text-4xl md:text-5xl font-black text-emerald-300 mb-2 tracking-wider title-logo">シマモリ</h2>
-                <p class="text-slate-200 text-sm md:text-base mb-4 leading-relaxed max-w-xl">目的: 中央の村を10Wave守り抜くこと。<br>島を拡張し、タワーを育て、魔物の侵攻ルートを制圧せよ。</p>
+                <p class="text-slate-200 text-sm md:text-base mb-4 leading-relaxed max-w-xl">目的: 中央の村を20Wave守り抜くこと。<br>島を拡張し、タワーを育て、魔物の侵攻ルートを制圧せよ。</p>
                 <div class="title-objective mb-6">
                     <span>🏠 村HPを0にしない</span>
-                    <span>⚔️ 全10Waveを突破</span>
+                    <span>⚔️ 全20Waveを突破</span>
                     <span>☄️ 決戦兵器を使いこなす</span>
                 </div>
                 <button id="btn-start-game" class="control-btn bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-extrabold px-8 py-4 rounded-xl shadow-lg transition-all text-lg tracking-widest transform hover:-translate-y-0.5">▶ プレイ開始</button>
@@ -211,7 +211,7 @@
                 <h3 class="font-black text-sm text-white flex items-center gap-2">☄️ 決戦兵器</h3>
                 <span class="text-[9px] bg-fuchsia-950 text-fuchsia-300 px-2 py-0.5 rounded font-bold">特別兵器</span>
             </div>
-            <p class="text-[10px] text-slate-400">オプション3: 天罰衛星レーザー。Wave中のみ使える全体攻撃です。</p>
+            <p class="text-[10px] text-slate-400">後半Waveで兵器が進化。11Wave以降は新兵器が段階解放されます。</p>
             <button id="btn-super-weapon" class="w-full bg-gradient-to-r from-fuchsia-700 to-purple-700 hover:from-fuchsia-600 hover:to-purple-600 text-white font-extrabold py-2.5 px-4 rounded-xl transition-all flex items-center justify-center gap-2 text-sm">
                 <i class="fa-solid fa-satellite-dish"></i><span id="super-weapon-label">天罰衛星レーザー (220G)</span>
             </button>
@@ -243,8 +243,8 @@
             <div><h4 class="font-extrabold text-white mb-1">⬆️ タワーアップグレード</h4>
                 <p class="text-slate-400">配置済みタワーをタップすると詳細パネルが開きます。Lv.3まで強化可能。攻撃力・射程が大幅アップします。</p>
             </div>
-            <div><h4 class="font-extrabold text-white mb-1">🐉 ボスWave (5・10)</h4>
-                <p class="text-slate-400">ドラゴンが登場すると画面上部にボスHPバーが出現。タワーに火炎弾を放つので注意！カノン砲で集中砲火を。</p>
+            <div><h4 class="font-extrabold text-white mb-1">🐉 ボスWave (5・10・15・20)</h4>
+                <p class="text-slate-400">前半はドラゴン、後半はヒュドラとリヴァイアサンが出現。いずれもタワーへ遠距離攻撃を放つので、防壁で導線を作って集中砲火しましょう。</p>
             </div>
             <div><h4 class="font-extrabold text-white mb-1">🏝️ 島拡張のコツ</h4>
                 <p class="text-slate-400">Waveクリアで拡張Ptが増加。浅瀬=1Pt、深海=2Pt。陸地を細長く伸ばして敵の移動距離を最大化！</p>
@@ -252,15 +252,15 @@
             <div><h4 class="font-extrabold text-white mb-1">🌊 潮汐イベント</h4>
                 <p class="text-slate-400">Wave開始時に潮が動き、地形の一部が自然変化します。浅瀬が陸地化することも、外縁の陸地が浅瀬へ戻ることもあります。</p>
             </div>
-            <div><h4 class="font-extrabold text-white mb-1">☄️ 決戦兵器（オプション3）</h4>
-                <p class="text-slate-400">220Gで天罰衛星レーザーを発動。Wave中のみ使用可能。画面内の全敵へ大ダメージを与え、再使用には30秒必要です。</p>
+            <div><h4 class="font-extrabold text-white mb-1">☄️ 決戦兵器（後半進化）</h4>
+                <p class="text-slate-400">前半は天罰衛星レーザー。11Wave以降に星砕メテオ、14Wave以降に雷獄テンペスト、17Wave以降に零式グレイシャルへ自動進化します。</p>
             </div>
             <div><h4 class="font-extrabold text-white mb-1">👾 敵の特性</h4>
                 <ul class="list-disc pl-4 space-y-0.5 text-slate-400">
-                    <li><b class="text-emerald-400">🟢スライム:</b> 遅い・弱い。Wave後半はHP2.5倍</li>
-                    <li><b class="text-orange-400">👺ゴブリン:</b> 速い！まとめて来ると厄介</li>
-                    <li><b class="text-red-400">🐗オーク:</b> 超硬い。カノン砲か魔法塔で削れ</li>
-                    <li><b class="text-purple-400">🐲ドラゴン:</b> ボス。タワーへ火炎弾を放つ</li>
+                    <li><b class="text-emerald-400">🟢スライム/👺ゴブリン/🐗オーク:</b> 前半の基本勢力</li>
+                    <li><b class="text-lime-400">🧟ゾンビ/👻スペクター:</b> 11Wave以降の高速・群体ユニット</li>
+                    <li><b class="text-red-400">😈デーモン/🪨ゴーレム:</b> 後半の高耐久アタッカー</li>
+                    <li><b class="text-cyan-400">🐍ヒュドラ/🐙リヴァイアサン:</b> 後半ボス。強力な遠距離砲撃を行う</li>
                 </ul>
             </div>
         </div>

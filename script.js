@@ -110,9 +110,42 @@ const SUPER_WEAPON={
     orbital:{
         id:'orbital',
         name:'天罰衛星レーザー',
+        icon:'☄️',
         cost:220,
         damage:120,
-        cooldownSec:30
+        cooldownSec:30,
+        unlockWave:1,
+        effect:'orbital'
+    },
+    meteor:{
+        id:'meteor',
+        name:'星砕メテオ',
+        icon:'🌠',
+        cost:280,
+        damage:140,
+        cooldownSec:36,
+        unlockWave:11,
+        effect:'meteor'
+    },
+    tempest:{
+        id:'tempest',
+        name:'雷獄テンペスト',
+        icon:'⚡',
+        cost:340,
+        damage:95,
+        cooldownSec:28,
+        unlockWave:14,
+        effect:'tempest'
+    },
+    glacier:{
+        id:'glacier',
+        name:'零式グレイシャル',
+        icon:'❄️',
+        cost:390,
+        damage:110,
+        cooldownSec:34,
+        unlockWave:17,
+        effect:'glacier'
     }
 };
 
@@ -128,12 +161,16 @@ const UPG_MULT=[1.0,1.5,2.2];
 const UPG_COST=[0,1.5,2.0];
 
 const EnemySpecs={
-    slime: {name:"スライム",emoji:"🟢",hp:30, speed:0.8, gold:5, power:2, color:"#10b981",r:12},
-    goblin:{name:"ゴブリン",emoji:"👺",hp:55, speed:1.4, gold:8, power:4, color:"#f97316",r:13},
-    orc:   {name:"オーク",  emoji:"🐗",hp:160,speed:0.5, gold:15,power:10,color:"#ef4444",r:16},
-    dragon:{name:"ドラゴン",emoji:"🐲",hp:750,speed:0.35,gold:50,power:25,color:"#a855f7",r:22,isBoss:true,fireCooldown:120},
-    zombie:{name:"ゾンビ",  emoji:"🧟",hp:80, speed:0.55,gold:10,power:7, color:"#84cc16",r:14},
-    demon: {name:"デーモン",emoji:"😈",hp:380,speed:0.75,gold:28,power:16,color:"#dc2626",r:17}
+    slime:    {name:"スライム",emoji:"🟢",hp:30, speed:0.8, gold:5,  power:2,  color:"#10b981",r:12,spawnInt:45},
+    goblin:   {name:"ゴブリン",emoji:"👺",hp:55, speed:1.4, gold:8,  power:4,  color:"#f97316",r:13,spawnInt:42},
+    orc:      {name:"オーク",  emoji:"🐗",hp:160,speed:0.5, gold:15, power:10, color:"#ef4444",r:16,spawnInt:60},
+    dragon:   {name:"ドラゴン",emoji:"🐲",hp:750,speed:0.35,gold:50, power:25, color:"#a855f7",r:22,isBoss:true,fireCooldown:120,fireDamage:35,spawnInt:100},
+    zombie:   {name:"ゾンビ",  emoji:"🧟",hp:120,speed:0.65,gold:14, power:8,  color:"#84cc16",r:14,spawnInt:52},
+    demon:    {name:"デーモン",emoji:"😈",hp:420,speed:0.85,gold:28, power:16, color:"#dc2626",r:17,spawnInt:58},
+    specter:  {name:"スペクター",emoji:"👻",hp:180,speed:1.25,gold:20,power:11,color:"#60a5fa",r:15,spawnInt:38},
+    golem:    {name:"ゴーレム",emoji:"🪨",hp:620,speed:0.38,gold:36,power:20,color:"#94a3b8",r:19,spawnInt:72},
+    hydra:    {name:"ヒュドラ",emoji:"🐍",hp:1700,speed:0.34,gold:110,power:32,color:"#22c55e",r:24,isBoss:true,fireCooldown:90,fireDamage:46,spawnInt:112},
+    leviathan:{name:"リヴァイアサン",emoji:"🐙",hp:2800,speed:0.30,gold:160,power:42,color:"#06b6d4",r:27,isBoss:true,fireCooldown:72,fireDamage:58,spawnInt:125}
 };
 
 const WaveData=[
@@ -146,7 +183,17 @@ const WaveData=[
     {enemies:[{t:'orc',n:5},{t:'goblin',n:5}],                   bonus:1,hpM:1.7},
     {enemies:[{t:'orc',n:7},{t:'goblin',n:10}],                  bonus:0,hpM:2.0},
     {enemies:[{t:'orc',n:8},{t:'dragon',n:1}],                   bonus:2,hpM:2.2},
-    {enemies:[{t:'slime',n:10},{t:'goblin',n:10},{t:'orc',n:8},{t:'dragon',n:2}],bonus:0,hpM:2.5}
+    {enemies:[{t:'slime',n:10},{t:'goblin',n:10},{t:'orc',n:8},{t:'dragon',n:2}],bonus:0,hpM:2.5},
+    {enemies:[{t:'zombie',n:10},{t:'specter',n:6}],               bonus:1,hpM:2.7},
+    {enemies:[{t:'zombie',n:12},{t:'demon',n:4}],                 bonus:1,hpM:2.9},
+    {enemies:[{t:'specter',n:14},{t:'zombie',n:8}],               bonus:1,hpM:3.1},
+    {enemies:[{t:'golem',n:4},{t:'demon',n:6}],                   bonus:2,hpM:3.3},
+    {enemies:[{t:'specter',n:10},{t:'golem',n:4},{t:'hydra',n:1}],bonus:3,hpM:3.6},
+    {enemies:[{t:'zombie',n:14},{t:'demon',n:8},{t:'golem',n:4}], bonus:2,hpM:3.8},
+    {enemies:[{t:'specter',n:16},{t:'demon',n:8}],                bonus:2,hpM:4.0},
+    {enemies:[{t:'golem',n:8},{t:'demon',n:10}],                  bonus:3,hpM:4.3},
+    {enemies:[{t:'specter',n:14},{t:'golem',n:8},{t:'hydra',n:1}],bonus:3,hpM:4.6},
+    {enemies:[{t:'zombie',n:16},{t:'specter',n:14},{t:'demon',n:12},{t:'golem',n:8},{t:'leviathan',n:1}],bonus:4,hpM:5.0}
 ];
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -297,7 +344,11 @@ class Enemy{
         const d=Math.hypot(tx-this.x,ty-this.y);
         if(d<=spd){this.x=tx;this.y=ty;}
         else{const a=Math.atan2(ty-this.y,tx-this.x);this.x+=Math.cos(a)*spd;this.y+=Math.sin(a)*spd;}
-        if(this.isBoss){this.fireTimer++;if(this.fireTimer>=EnemySpecs.dragon.fireCooldown){this.fireTimer=0;this._fireAtTower(game);}}
+        if(this.isBoss){
+            this.fireTimer++;
+            const cd=EnemySpecs[this.type].fireCooldown||120;
+            if(this.fireTimer>=cd){this.fireTimer=0;this._fireAtTower(game);}
+        }
         const cr=Math.floor(this.y/cs),cc=Math.floor(this.x/cs);
         if(cr>=0&&cr<GRID&&cc>=0&&cc<GRID){
             const cell=game.grid[cr][cc];
@@ -317,7 +368,8 @@ class Enemy{
         if(!targets.length)return;
         const t=targets[Math.floor(Math.random()*targets.length)];
         Sound.playExplode();
-        game.enemyProjs.push(new EProj(this.x,this.y,t.col*game.cs+game.cs/2,t.row*game.cs+game.cs/2,35));
+        const dmg=EnemySpecs[this.type].fireDamage||35;
+        game.enemyProjs.push(new EProj(this.x,this.y,t.col*game.cs+game.cs/2,t.row*game.cs+game.cs/2,dmg));
     }
     draw(ctx){
         if(this.slowTimer>0){ctx.beginPath();ctx.arc(this.x,this.y,this.radius+3,0,Math.PI*2);ctx.fillStyle='rgba(14,165,233,.3)';ctx.fill();}
@@ -441,8 +493,15 @@ class GameEngine{
         this.spawnQ=[];this.spawnT=0;this.pathMap=null;
         this.rebuildPath();this.updateHUD();this.updateNextWave();this.updateUI();this.clearDetail();
     }
+    currentSuperWeapon(){
+        const w=this.waveIdx+1;
+        if(w>=17)return SUPER_WEAPON.glacier;
+        if(w>=14)return SUPER_WEAPON.tempest;
+        if(w>=11)return SUPER_WEAPON.meteor;
+        return SUPER_WEAPON.orbital;
+    }
     useSuperWeapon(){
-        const w=SUPER_WEAPON.orbital;
+        const w=this.currentSuperWeapon();
         if(!this.playing||this.over||this.clear)return;
         if(this.phase!=='wave'){
             this.floatText('Wave中のみ使用可能',MID*this.cs+this.cs/2,MID*this.cs+this.cs/2-70,'#f472b6');
@@ -460,26 +519,29 @@ class GameEngine{
             this.floatText('標的がいません',MID*this.cs+this.cs/2,MID*this.cs+this.cs/2-70,'#94a3b8');
             return;
         }
-        this.gold-=w.cost;
-        this.superWeaponCd=w.cooldownSec*60;
-        this.enemies.forEach(e=>{
-            e.hp-=w.damage;
-            this.particles(e.x,e.y,'#f472b6',18);
-            this.floatText('☄️'+Math.round(w.damage),e.x,e.y-12,'#f472b6');
-        });
-        Sound.playExplode();
-        Sound.playMagic();
-        this.floatText('☄️ 天罰衛星レーザー発動!',MID*this.cs+this.cs/2,MID*this.cs+this.cs/2-40,'#f5d0fe');
+        this.gold-=w.cost;this.superWeaponCd=w.cooldownSec*60;
+        if(w.effect==='orbital'){
+            this.enemies.forEach(e=>{e.hp-=w.damage;this.particles(e.x,e.y,'#f472b6',18);this.floatText('☄️'+Math.round(w.damage),e.x,e.y-12,'#f472b6');});
+        }else if(w.effect==='meteor'){
+            const picks=[...this.enemies].sort(()=>Math.random()-.5).slice(0,Math.min(6,this.enemies.length));
+            picks.forEach(t=>{this.particles(t.x,t.y,'#fb7185',22);this.enemies.forEach(e=>{if(Math.hypot(e.x-t.x,e.y-t.y)<=this.cs*1.6)e.hp-=w.damage;});this.floatText('🌠'+Math.round(w.damage),t.x,t.y-14,'#fb7185');});
+        }else if(w.effect==='tempest'){
+            [...this.enemies].sort((a,b)=>b.hp-a.hp).slice(0,Math.min(8,this.enemies.length)).forEach(e=>{e.hp-=w.damage;e.slowTimer=Math.max(e.slowTimer,220);this.particles(e.x,e.y,'#a5b4fc',14);this.floatText('⚡'+Math.round(w.damage),e.x,e.y-12,'#a5b4fc');});
+        }else{
+            this.enemies.forEach(e=>{e.hp-=w.damage;e.slowTimer=Math.max(e.slowTimer,300);this.particles(e.x,e.y,'#67e8f9',16);this.floatText('❄️'+Math.round(w.damage),e.x,e.y-12,'#67e8f9');});
+        }
+        Sound.playExplode();Sound.playMagic();
+        this.floatText(w.icon+' '+w.name+' 発動!',MID*this.cs+this.cs/2,MID*this.cs+this.cs/2-40,'#f5d0fe');
         this.updateHUD();
         this.updateSuperWeaponUI();
     }
     updateSuperWeaponUI(){
-        const w=SUPER_WEAPON.orbital;
+        const w=this.currentSuperWeapon();
         const btn=document.getElementById('btn-super-weapon');
         const label=document.getElementById('super-weapon-label');
         const cd=document.getElementById('super-weapon-cd');
         if(!btn||!label||!cd)return;
-        label.textContent=w.name+' ('+w.cost+'G)';
+        label.textContent=w.icon+' '+w.name+' ('+w.cost+'G)';
         if(this.superWeaponCd>0){
             const sec=Math.ceil(this.superWeaponCd/60);
             btn.disabled=true;
@@ -716,7 +778,7 @@ class GameEngine{
     particles(x,y,col,n=10){for(let i=0;i<n;i++)this.parts.push(new Particle(x,y,col));}
     floatText(text,x,y,color){this.floats.push({text,x,y,color,alpha:1,vy:-1.2,life:50});}
     updateHUD(){
-        document.getElementById('hud-wave').textContent=(this.waveIdx+1)+'/10';
+        document.getElementById('hud-wave').textContent=(this.waveIdx+1)+'/'+WaveData.length;
         document.getElementById('hud-gold').textContent=this.gold;
         document.getElementById('hud-points').textContent=this.expandPts;
         document.getElementById('hud-kills').textContent=this.kills;
@@ -829,7 +891,7 @@ class GameEngine{
             const cx=MID*this.cs+this.cs/2,cy=MID*this.cs+this.cs/2;
             this.floatText('Waveクリア! +'+reward+'G',cx,cy-30,'#facc15');
             if(preset&&preset.bonus>0)this.floatText('拡張Pt+'+preset.bonus+'!',cx,cy,'#38bdf8');
-            if(this.waveIdx<9){
+            if(this.waveIdx<WaveData.length-1){
                 this.waveIdx++;this.updateNextWave();
                 // スキルカード選択（最終Waveは除く）
                 setTimeout(()=>this.showSkillCards(),400);
@@ -858,7 +920,7 @@ class GameEngine{
             if(this.phase==='build'){if(this.phaseTimer>0){this.phaseTimer--;if(!this.phaseTimer)this.startWave();}}
             if(this.phase==='wave'&&this.spawnQ.length>0){
                 this.spawnT++;
-                const interval=this.spawnQ[0].type==='dragon'?100:(this.spawnQ[0].type==='orc'?60:45);
+                const interval=(EnemySpecs[this.spawnQ[0].type]&&EnemySpecs[this.spawnQ[0].type].spawnInt)||45;
                 if(this.spawnT>=interval){this.enemies.push(new Enemy(this.spawnQ.shift().type,this));this.spawnT=0;}
             }
             if(step===0&&this.phase==='wave'){
