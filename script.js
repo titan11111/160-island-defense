@@ -533,6 +533,7 @@ class GameEngine{
     resize(){
         const p=this.canvas.parentElement;
         const dpr=Math.min(window.devicePixelRatio||1,2);
+        this.renderDpr=dpr;
         let s;
         if(window.matchMedia('(max-width:1024px)').matches){
             const header=document.getElementById('app-header');
@@ -581,7 +582,18 @@ class GameEngine{
         this.pathMap=next;
     }
     setupInput(){
-        const coords=e=>{const rect=this.canvas.getBoundingClientRect();const cx=e.touches?e.touches[0].clientX:e.clientX;const cy=e.touches?e.touches[0].clientY:e.clientY;return{x:(cx-rect.left)*(this.canvas.width/(rect.width*devicePixelRatio)),y:(cy-rect.top)*(this.canvas.height/(rect.height*devicePixelRatio))};};
+        const coords=e=>{
+            const rect=this.canvas.getBoundingClientRect();
+            const cx=e.touches?e.touches[0].clientX:e.clientX;
+            const cy=e.touches?e.touches[0].clientY:e.clientY;
+            const dpr=this.renderDpr||1;
+            const logicalW=this.canvas.width/dpr;
+            const logicalH=this.canvas.height/dpr;
+            return{
+                x:(cx-rect.left)*(logicalW/rect.width),
+                y:(cy-rect.top)*(logicalH/rect.height)
+            };
+        };
         const handle=(x,y)=>{if(!this.playing||this.over||this.clear)return;const r=Math.floor(y/this.cs),c=Math.floor(x/this.cs);if(r>=0&&r<GRID&&c>=0&&c<GRID)this.click(r,c);};
         this.canvas.addEventListener('mousemove',e=>{const{x,y}=coords(e);const r=Math.floor(y/this.cs),c=Math.floor(x/this.cs);this.hover=(r>=0&&r<GRID&&c>=0&&c<GRID)?{r,c}:null;});
         this.canvas.addEventListener('mouseleave',()=>{this.hover=null;});
