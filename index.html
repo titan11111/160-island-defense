@@ -115,18 +115,6 @@
                 <button onclick="window.location.reload()" class="bg-gradient-to-r from-rose-600 to-rose-500 text-white font-extrabold px-6 py-3 rounded-xl shadow-lg transition-all text-sm">リベンジする</button>
             </div>
 
-            <!-- オーバーレイ：スキルカード選択 -->
-            <div id="overlay-skill" class="hidden fixed inset-0 bg-slate-950/92 backdrop-blur-md flex flex-col items-center justify-center p-6 z-50 overflow-y-auto">
-                <p class="text-[10px] text-emerald-400 font-bold tracking-widest uppercase mb-1">Wave クリア！</p>
-                <h2 class="text-2xl font-black text-white mb-1">スキルを選択</h2>
-                <p class="text-slate-400 text-xs mb-5">カードを1枚タップして島を強化しよう</p>
-                <div id="skill-cards-row" class="flex flex-col sm:flex-row gap-3 w-full max-w-sm justify-center"></div>
-                <!-- 取得済みスキル表示 -->
-                <div id="active-skills-wrap" class="hidden mt-5 flex flex-col items-center gap-1">
-                    <p class="text-[10px] text-slate-500 font-bold">取得済みスキル</p>
-                    <div id="active-skills-row" class="flex flex-wrap gap-1.5 justify-center"></div>
-                </div>
-            </div>
         </div>
 
         <!-- コントロールバー -->
@@ -280,5 +268,16 @@
     </div>
 </div>
 <script src="script.js"></script>
+<!-- スキルカード選択オーバーレイ（body直下・canvas-wrap外） -->
+<div id="overlay-skill" class="hidden" style="position:fixed;inset:0;z-index:9999;background:rgba(2,6,23,0.95);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:none;flex-direction:column;align-items:center;justify-content:center;padding:20px;overflow-y:auto;-webkit-overflow-scrolling:touch;">
+    <p style="font-size:10px;color:#34d399;font-weight:800;letter-spacing:.2em;text-transform:uppercase;margin-bottom:4px;">Wave クリア！</p>
+    <h2 style="font-size:22px;font-weight:900;color:#fff;margin-bottom:4px;">スキルを選択</h2>
+    <p style="font-size:11px;color:#94a3b8;margin-bottom:16px;">1枚タップして島を強化しよう</p>
+    <div id="skill-cards-row" style="display:flex;flex-direction:column;gap:10px;width:100%;max-width:360px;"></div>
+    <div id="active-skills-wrap" class="hidden" style="margin-top:16px;display:none;flex-direction:column;align-items:center;gap:6px;">
+        <p style="font-size:10px;color:#64748b;font-weight:700;">取得済みスキル</p>
+        <div id="active-skills-row" style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;"></div>
+    </div>
+</div>
 </body>
 </html>

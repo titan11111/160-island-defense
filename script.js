@@ -660,22 +660,29 @@ class GameEngine{
 
         picks.forEach(skill=>{
             const card=document.createElement('button');
-            card.className='skill-card-anim flex-1 min-w-0 border-2 rounded-2xl p-4 flex flex-col items-center gap-2 transition-all hover:scale-105 active:scale-95 '+RARITY_CLASS[skill.rarity];
+            card.className='skill-card-anim '+RARITY_CLASS[skill.rarity];
+            card.style.cssText='width:100%;border-width:2px;border-style:solid;border-radius:14px;padding:12px 14px;display:flex;flex-direction:row;align-items:center;gap:12px;text-align:left;transition:transform .15s;-webkit-tap-highlight-color:transparent;';
 
             const emojiEl=document.createElement('span');
-            emojiEl.className='text-4xl';emojiEl.textContent=skill.emoji;
+            emojiEl.style.cssText='font-size:28px;flex-shrink:0;line-height:1;';emojiEl.textContent=skill.emoji;
+
+            const mid=document.createElement('div');
+            mid.style.cssText='flex:1;min-width:0;';
 
             const nameEl=document.createElement('p');
-            nameEl.className='font-black text-white text-sm text-center leading-tight';nameEl.textContent=skill.name;
+            nameEl.style.cssText='font-weight:900;color:#fff;font-size:14px;line-height:1.2;margin:0 0 3px;';nameEl.textContent=skill.name;
 
             const descEl=document.createElement('p');
-            descEl.className='text-[10px] text-slate-300 text-center leading-relaxed';descEl.textContent=skill.desc;
+            descEl.style.cssText='font-size:10px;color:#cbd5e1;line-height:1.4;margin:0;';descEl.textContent=skill.desc;
+
+            mid.appendChild(nameEl);mid.appendChild(descEl);
 
             const rarityEl=document.createElement('span');
-            rarityEl.className='text-[9px] font-bold px-2 py-0.5 rounded-full border '+RARITY_CLASS[skill.rarity];
+            rarityEl.className=RARITY_CLASS[skill.rarity];
+            rarityEl.style.cssText='font-size:9px;font-weight:700;padding:2px 8px;border-radius:999px;border-width:1px;border-style:solid;flex-shrink:0;white-space:nowrap;';
             rarityEl.textContent=RARITY_LABEL[skill.rarity];
 
-            card.appendChild(emojiEl);card.appendChild(nameEl);card.appendChild(descEl);card.appendChild(rarityEl);
+            card.appendChild(emojiEl);card.appendChild(mid);card.appendChild(rarityEl);
             card.addEventListener('click',()=>this.selectSkill(skill));
             row.appendChild(card);
         });
@@ -683,7 +690,7 @@ class GameEngine{
         // 取得済みスキル表示
         const wrap=document.getElementById('active-skills-wrap');
         if(this.activeSkills.length>0){
-            wrap.classList.remove('hidden');
+            wrap.style.display='flex';
             const ar=document.getElementById('active-skills-row');
             while(ar.firstChild)ar.removeChild(ar.firstChild);
             this.activeSkills.forEach(s=>{
@@ -692,14 +699,14 @@ class GameEngine{
                 chip.textContent=s.emoji+' '+s.name;
                 ar.appendChild(chip);
             });
-        }else{wrap.classList.add('hidden');}
+        }else{wrap.style.display='none';}
 
-        document.getElementById('overlay-skill').classList.remove('hidden');
+        const ov=document.getElementById('overlay-skill');ov.style.display='flex';
     }
     selectSkill(skill){
         skill.apply(this);
         this.activeSkills.push({id:skill.id,name:skill.name,emoji:skill.emoji});
-        document.getElementById('overlay-skill').classList.add('hidden');
+        document.getElementById('overlay-skill').style.display='none';
         this.skillPending=false;
         Sound.playUpgrade();
         this.floatText(skill.emoji+' '+skill.name+' 取得!',MID*this.cs+this.cs/2,MID*this.cs+this.cs/2-40,'#fbbf24');
