@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>シマモリ iOSモック</title>
+  <style>
+    :root{--panel-h:clamp(84px,15dvh,124px)}
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{width:100%;height:100%;overflow:hidden;background:#020617;color:#e2e8f0;font-family:system-ui,-apple-system,sans-serif}
+    .app{height:100dvh;display:flex;flex-direction:column}
+    .hud{padding:10px 12px;background:#0b1226;border-bottom:1px solid #1e293b}
+    .hud-row{display:flex;gap:8px;flex-wrap:wrap;font-size:12px}
+    .chip{background:#020617;border:1px solid #1e293b;padding:6px 8px;border-radius:8px}
+    .main{height:calc(100dvh - 62px - var(--panel-h) - env(safe-area-inset-bottom) - 12px);padding:8px;display:flex;flex-direction:column;gap:8px}
+    .field{flex:0 1 calc(56% + 3cm);min-height:calc(230px + 3cm);background:#020b2f;border:1px solid #1e3a8a;border-radius:14px;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:10px}
+    .grid{width:min(calc(100% - 8px),78vw,54vh);max-width:100%;aspect-ratio:1;border:2px solid #1e293b;background:
+      linear-gradient(#223 1px,transparent 1px) 0 0/11.111% 11.111%,
+      linear-gradient(90deg,#223 1px,transparent 1px) 0 0/11.111% 11.111%,
+      radial-gradient(circle at 50% 50%,#14532d 0 22%,#0891b2 22% 36%,#020b2f 36% 100%);
+      border-radius:12px}
+    .side{flex:1 1 auto;min-height:0;overflow:auto;display:flex;flex-direction:column;gap:8px;padding-right:2px;padding-bottom:calc(var(--panel-h) + env(safe-area-inset-bottom) + 12px)}
+    .card{background:rgba(15,23,42,.85);border:1px solid #1e293b;border-radius:12px;padding:10px}
+    .card h3{font-size:13px;margin-bottom:6px}
+    .panel{position:fixed;left:max(8px,env(safe-area-inset-left));right:max(8px,env(safe-area-inset-right));bottom:max(8px,env(safe-area-inset-bottom));height:var(--panel-h);background:#0b1226;border:1px solid #334155;border-radius:16px;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:8px;box-shadow:0 10px 28px rgba(2,6,23,.55)}
+    .btns{display:flex;gap:8px}
+    .btn{min-width:44px;min-height:44px;border:none;border-radius:10px;background:#1e293b;color:#fff;font-weight:700;padding:0 10px}
+    .primary{background:linear-gradient(90deg,#d97706,#f59e0b)}
+    .hint{font-size:11px;color:#93c5fd}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="hud">
+      <div class="hud-row">
+        <div class="chip">Wave 1/10</div>
+        <div class="chip">💰 120</div>
+        <div class="chip">⚔️ 0</div>
+        <div class="chip">HP 100/100</div>
+      </div>
+    </header>
+    <main class="main">
+      <section class="field"><div class="grid" aria-label="9x9 mock grid"></div></section>
+      <section class="side">
+        <div class="card"><h3>🏹 タワー配置</h3><p>弓兵台 / 魔法塔 / カノン砲 ...</p></div>
+        <div class="card"><h3>🏝️ 島拡張</h3><p>拡張Ptで地形を広げる</p></div>
+        <div class="card"><h3>☄️ 決戦兵器</h3><p>天罰衛星レーザー（220G）</p></div>
+      </section>
+    </main>
+  </div>
+  <div class="panel">
+    <div class="btns">
+      <button class="btn">1x</button>
+      <button class="btn primary">▶ Wave開始</button>
+    </div>
+    <div class="hint">タップでタワー選択</div>
+    <div class="btns">
+      <button class="btn">?</button>
+      <button class="btn">🔊</button>
+    </div>
+  </div>
+</body>
+</html>
