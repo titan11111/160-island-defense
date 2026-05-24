@@ -445,19 +445,19 @@ class GameEngine{
         const w=SUPER_WEAPON.orbital;
         if(!this.playing||this.over||this.clear)return;
         if(this.phase!=='wave'){
-            this.floatText('Wave中のみ使用可能',this.canvas.width/2/devicePixelRatio,this.canvas.height/2/devicePixelRatio-70,'#f472b6');
+            this.floatText('Wave中のみ使用可能',MID*this.cs+this.cs/2,MID*this.cs+this.cs/2-70,'#f472b6');
             return;
         }
         if(this.superWeaponCd>0){
-            this.floatText('兵器は再充填中',this.canvas.width/2/devicePixelRatio,this.canvas.height/2/devicePixelRatio-70,'#f472b6');
+            this.floatText('兵器は再充填中',MID*this.cs+this.cs/2,MID*this.cs+this.cs/2-70,'#f472b6');
             return;
         }
         if(this.gold<w.cost){
-            this.floatText('ゴールド不足! (必要:'+w.cost+'G)',this.canvas.width/2/devicePixelRatio,this.canvas.height/2/devicePixelRatio-70,'#f87171');
+            this.floatText('ゴールド不足! (必要:'+w.cost+'G)',MID*this.cs+this.cs/2,MID*this.cs+this.cs/2-70,'#f87171');
             return;
         }
         if(this.enemies.length===0){
-            this.floatText('標的がいません',this.canvas.width/2/devicePixelRatio,this.canvas.height/2/devicePixelRatio-70,'#94a3b8');
+            this.floatText('標的がいません',MID*this.cs+this.cs/2,MID*this.cs+this.cs/2-70,'#94a3b8');
             return;
         }
         this.gold-=w.cost;
@@ -469,7 +469,7 @@ class GameEngine{
         });
         Sound.playExplode();
         Sound.playMagic();
-        this.floatText('☄️ 天罰衛星レーザー発動!',this.canvas.width/2/devicePixelRatio,this.canvas.height/2/devicePixelRatio-40,'#f5d0fe');
+        this.floatText('☄️ 天罰衛星レーザー発動!',MID*this.cs+this.cs/2,MID*this.cs+this.cs/2-40,'#f5d0fe');
         this.updateHUD();
         this.updateSuperWeaponUI();
     }
@@ -557,7 +557,7 @@ class GameEngine{
         this.canvas.height=Math.round(s*dpr);
         this.ctx.setTransform(1,0,0,1,0,0);
         this.ctx.scale(dpr,dpr);
-        this.cs=(this.canvas.width/dpr)/GRID;
+        this.logicalSize=s;this.cs=s*1.3/GRID;this.gridOffset=(s-s*1.3)/2;
     }
     updateLayoutMetrics(){
         const header=document.getElementById('app-header');
@@ -584,14 +584,10 @@ class GameEngine{
     setupInput(){
         const coords=e=>{
             const rect=this.canvas.getBoundingClientRect();
-            const cx=e.touches?e.touches[0].clientX:e.clientX;
-            const cy=e.touches?e.touches[0].clientY:e.clientY;
-            const dpr=this.renderDpr||1;
-            const logicalW=this.canvas.width/dpr;
-            const logicalH=this.canvas.height/dpr;
+            const t=e.touches?e.touches[0]:e;
             return{
-                x:(cx-rect.left)*(logicalW/rect.width),
-                y:(cy-rect.top)*(logicalH/rect.height)
+                x:(t.clientX-rect.left)*this.logicalSize/rect.width-this.gridOffset,
+                y:(t.clientY-rect.top)*this.logicalSize/rect.height-this.gridOffset
             };
         };
         const handle=(x,y)=>{if(!this.playing||this.over||this.clear)return;const r=Math.floor(y/this.cs),c=Math.floor(x/this.cs);if(r>=0&&r<GRID&&c>=0&&c<GRID)this.click(r,c);};
@@ -706,7 +702,7 @@ class GameEngine{
         document.getElementById('overlay-skill').classList.add('hidden');
         this.skillPending=false;
         Sound.playUpgrade();
-        this.floatText(skill.emoji+' '+skill.name+' 取得!',this.canvas.width/2/devicePixelRatio,this.canvas.height/2/devicePixelRatio-40,'#fbbf24');
+        this.floatText(skill.emoji+' '+skill.name+' 取得!',MID*this.cs+this.cs/2,MID*this.cs+this.cs/2-40,'#fbbf24');
         this.updateHUD();
     }
 
@@ -809,7 +805,7 @@ class GameEngine{
         this.totalEnemies=this.spawnQ.length;this.spawnT=0;
         document.getElementById('wp-wave').textContent=this.waveIdx+1;
         if(this.lastTideResult){
-            const cx=this.canvas.width/2/devicePixelRatio,cy=this.canvas.height/2/devicePixelRatio;
+            const cx=MID*this.cs+this.cs/2,cy=MID*this.cs+this.cs/2;
             this.floatText('🌊 潮汐変化 '+this.lastTideResult.total+'マス',cx,cy+30,'#22d3ee');
         }
         Sound.playMagic();this.updateNextWave();
@@ -823,7 +819,7 @@ class GameEngine{
             this.expandPts+=(1+(preset?preset.bonus:1));
             const reward=40+this.waveIdx*10;this.gold+=reward;
             Sound.playHeal();
-            const cx=this.canvas.width/2/devicePixelRatio,cy=this.canvas.height/2/devicePixelRatio;
+            const cx=MID*this.cs+this.cs/2,cy=MID*this.cs+this.cs/2;
             this.floatText('Waveクリア! +'+reward+'G',cx,cy-30,'#facc15');
             if(preset&&preset.bonus>0)this.floatText('拡張Pt+'+preset.bonus+'!',cx,cy,'#38bdf8');
             if(this.waveIdx<9){
@@ -888,8 +884,9 @@ class GameEngine{
     }
     draw(){
         const ctx=this.ctx,cs=this.cs,now=Date.now();
-        const sz=this.canvas.width/devicePixelRatio;
+        const sz=this.logicalSize;
         ctx.clearRect(0,0,sz,sz);
+        ctx.save();ctx.translate(this.gridOffset,this.gridOffset);
         if(this.phase==='build'){document.getElementById('countdown-timer').textContent=Math.ceil(this.phaseTimer/60)+'s';document.getElementById('phase-countdown').classList.remove('opacity-20');}
         else{document.getElementById('countdown-timer').textContent='進行中';document.getElementById('phase-countdown').classList.add('opacity-20');}
         // グリッド
@@ -923,6 +920,7 @@ class GameEngine{
         this.enemyProjs.forEach(p=>p.draw(ctx));
         this.parts.forEach(p=>p.draw(ctx));
         this.floats.forEach(f=>{ctx.save();ctx.globalAlpha=f.alpha;ctx.fillStyle=f.color;ctx.font='bold 12px Inter,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(f.text,f.x,f.y);ctx.restore();});
+        ctx.restore();
     }
     loop(){this.update();this.draw();requestAnimationFrame(()=>this.loop());}
 }
